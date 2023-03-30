@@ -16,13 +16,13 @@
                 $role = setRole($username);
                 $payload = array('username'=>$username, 'exp'=>(time()+3600), 'role'=>$role[0]);
                 $jwt = generate_jwt($headers, $payload);
-                deliver_response(200, "Authentification reussie", $jwt.get_bearer_token() );
+                deliver_response(201, "Authentification reussie", $jwt.get_bearer_token() );
             } else {
                 deliver_response(401, "User " . $data['username'] ." invalid.", NULL);
             }
             break;
         default :
-            deliver_response(405, "Invalid operation " . $http_method . ".", NULL);
+            deliver_response(405, "Invalid method " . $http_method . ".", NULL);
             break; 
         }
 

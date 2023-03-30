@@ -19,20 +19,28 @@
         $exp = time() + 300;
         $login = "non authentifie";
     }
-
     switch ($http_method){
-        case "GET" :      
-            if (isset($_GET['login'])) {
-                $username = $_GET['login'];
-                $matchingData = getById($username);
+        case "GET" :
+            if(is_jwt_valid($jwt)) {
+                if (isset($_GET['login'])) {
+                    $username = $_GET['login'];
+                    $matchingData = getWithLikesById($username);
+                } else {
+                    $matchingData = getWithLikesById();
+                }
+                if (isset($_GET['id_article'])) {
+                    $id = $_GET['id_article'];
+                    $matchingData = (getLikeById($id)-getDislikeById($id));
+                }
             } else {
-                $matchingData = getById();
+                if (isset($_GET['login'])) {
+                    $username = $_GET['login'];
+                    $matchingData = getById($username);
+                } else {
+                    $matchingData = getById();
+                }
             }
-            if (isset($_GET['id_article'])) {
-                $id = $_GET['id_article'];
-                $matchingData = (getLikeById($id)-getDislikeById($id));
-            }
-            deliver_response(200, "La requête a bien été traitée par le server.", $matchingData);
+            deliver_response(201, "La requête a bien été traitée par le server.", $matchingData);
             break;
         case "DELETE" :            
             $id = $_GET['id_article'];            
@@ -40,11 +48,11 @@
                 deliver_response(405, "L'article n'existe pas.", null);
             }
             $author = getAuthor($id);
-            if ( ($login === $author || $role = "Moderator" ) && is_jwt_valid($jwt) ) {
+            if ( ($login === $author || $role == "Moderator") && is_jwt_valid($jwt) ) {
                 deleteId($id);
                 deliver_response(200, "L'article a bien ete supprime.", null);
             } else {
-                deliver_response(405, "Le token est invalide.", null);
+                deliver_response(498, "Le token est invalide.", null);
             }
             break;
         case "POST" :
@@ -53,9 +61,9 @@
             $contenu = $data['contenu'];
             if (is_jwt_valid($jwt)){
                 insert($contenu, $login);                  
-                deliver_response(200, "L'insertion a bien été traitée par le serveur.", null);
+                deliver_response(204, "Requête insert traitée avec succès mais pas d’information à renvoyer.", null);
             } else {
-                deliver_response(405, "Jeton invalide", null);
+                deliver_response(498, "Jeton invalide", null);
             }
             break;
         case "PUT" :
@@ -70,9 +78,9 @@
                 $author = getAuthor($id);
                 if ( ($login === $author ) && is_jwt_valid($jwt) ) {
                     update($contenu, $id);                  
-                    deliver_response(200, "L'article a bien été mis à jours.", null);
+                    deliver_response(204, "Requête update traitée avec succès mais pas d’information à renvoyer.", null);
                 } else {
-                    deliver_response(405, "Jeton invalide", null);
+                    deliver_response(498, "Jeton invalide", null);
                 }
             }
             if (isset($data['vote'])) {
@@ -81,24 +89,24 @@
                 if (isNewVote($login, $id)) {
                     if ( is_jwt_valid($jwt) ) {
                         vote($login, $id, $vote);                  
-                        deliver_response(200, "L'article a bien été mis à jours.", null);
+                        deliver_response(204, "Requête update traitée avec succès mais pas d’information à renvoyer.", null);
                     } else {
-                        deliver_response(405, "Jeton invalide", null);
+                        deliver_response(498, "Jeton invalide", null);
                     }
                     echo("Existent");
                 } else {
                     if ( is_jwt_valid($jwt) ) {
                         insertNewVote($login, $id, $vote);                
-                        deliver_response(200, "L'article a bien été mis à jours.", null);
+                        deliver_response(204, "Requête update traitée avec succès mais pas d’information à renvoyer.", null);
                     } else {
-                        deliver_response(405, "Jeton invalide", null);
+                        deliver_response(498, "Jeton invalide", null);
                     }
                     echo("Non existent");
                 }                
             }
             break;
         default :
-            deliver_response(405, "Operation invalide", null);
+            deliver_response(405, "Invalid method " . $http_method . ".", NULL);
             break;
         }
 

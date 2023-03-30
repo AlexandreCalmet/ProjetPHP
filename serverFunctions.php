@@ -14,15 +14,15 @@
         return $linkpdo;
     }
 
-    function getById($x=null) {
+    function getById($username=null) {
         $linkpdo = connection();
-        if (isset($x)) {
-            $query = 'SELECT * FROM article WHERE login =' . '\'' . $x . '\'' ;
-            $res = $linkpdo->prepare($query); 
+        if (isset($username)) {
+            $query = 'SELECT * FROM article WHERE login =' . '\'' . $username . '\'' ;
+            $res = $linkpdo->prepare($query);             
             if(!$res){
                 die('Erreur Préparation Requête : ' . $e->getMessage());
             }
-            $res->execute();
+            $res->execute();            
             return $res->fetchAll();
         } else {
             $query = 'SELECT * FROM article';
@@ -34,6 +34,37 @@
             return $res->fetchAll();
         }
     }
+
+    function getWithLikesById($username=null) {
+        $linkpdo = connection(); 
+        if (isset($username)) {
+                $query = 'SELECT article.publication, article.contenu,  
+                SUM(CASE WHEN consulte.vote = 1 THEN 1 ELSE 0 END) AS up,
+                SUM(CASE WHEN consulte.vote = 0 THEN 1 ELSE 0 END) AS down,
+                (SUM(CASE WHEN consulte.vote = 1 THEN 1 ELSE 0 END) - SUM(CASE WHEN consulte.vote = 0 THEN 1 ELSE 0 END)) AS total,
+                article.login    
+                FROM article
+                INNER JOIN consulte ON article.id_article = consulte.id_article
+                WHERE article.login = ' . '\'' . $username . '\'
+                GROUP BY article.id_article'; 
+        } else {
+            $query = 'SELECT article.publication, article.contenu,  
+                SUM(CASE WHEN consulte.vote = 1 THEN 1 ELSE 0 END) AS up,
+                SUM(CASE WHEN consulte.vote = 0 THEN 1 ELSE 0 END) AS down,
+                (SUM(CASE WHEN consulte.vote = 1 THEN 1 ELSE 0 END) - SUM(CASE WHEN consulte.vote = 0 THEN 1 ELSE 0 END)) AS total,
+                article.login    
+                FROM article
+                INNER JOIN consulte ON article.id_article = consulte.id_article
+                GROUP BY article.id_article'; 
+        }
+        $res = $linkpdo->prepare($query); 
+        if(!$res){
+            die('Erreur Préparation Requête : ' . $e->getMessage());
+        }
+        $res->execute();           
+        return $res->fetchAll();
+    }
+
 
     function getLikeById($id) {
         $linkpdo = connection();
@@ -74,9 +105,9 @@
         return $res;
     }
 
-    function deleteId($x) {
+    function deleteId($id_article) {
         $linkpdo = connection();
-        $query = 'DELETE FROM article WHERE id_article =' . $x . ';';
+        $query = 'DELETE FROM article WHERE id_article =' . $id_article . ';';
         $res = $linkpdo->prepare($query); 
         if(!$res){
             die('Erreur Préparation Requête : ' . $e->getMessage());
@@ -156,4 +187,5 @@
         var_dump($res);
         return ;
     }
+
 ?>
