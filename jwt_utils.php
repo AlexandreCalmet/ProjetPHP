@@ -21,8 +21,8 @@ function is_jwt_valid($jwt, $secret = 'secret') {
 	$signature_provided = $tokenParts[2];
 
 	// check the expiration time - note this will cause an error if there is no 'exp' claim in the jwt
-	$expiration = json_decode($payload)->exp;
-	$is_token_expired = ($expiration - time()) < 0;
+	$expiration = json_decode($payload, true)['exp'];
+	$is_token_expired = (($expiration - time()) < 0);
 
 	// build a signature based on the header and payload using the secret
 	$base64_url_header = base64url_encode($header);
@@ -38,10 +38,6 @@ function is_jwt_valid($jwt, $secret = 'secret') {
 	} else {
 		return TRUE;
 	}
-}
-
-function base64url_encode($data) {
-    return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
 }
 
 function get_authorization_header(){
@@ -72,6 +68,26 @@ function get_bearer_token() {
         }
     }
     return null;
+}
+
+function split_jwt($jwt) {
+    $token_parts = explode('.', $jwt);
+	$header = $token_parts[0];
+	$payload = $token_parts[1];    
+	$signature = $token_parts[2];
+	return array('header' => $header, 'payload' => $payload, 'signature'=> $signature);
+}
+
+function base64url_encode($data) {
+    return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
+}
+
+function stringPayloadtoArray($payload) {
+	$array = explode('"', $payload);
+	$username = $array[0]; 
+	$exp = $array[1];       
+	$role = $array[2];
+	return array('username' => $username, 'exp' => $exp, 'role'=> $role);
 }
 
 ?>
