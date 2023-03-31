@@ -18,7 +18,7 @@
                 $jwt = generate_jwt($headers, $payload);
                 deliver_response(201, "Authentification reussie", $jwt.get_bearer_token() );
             } else {
-                deliver_response(401, "User " . $data['username'] ." invalid.", NULL);
+                deliver_response(404, "Utilisateur " . $data['username'] ." invalid.", NULL);
             }
             break;
         default :

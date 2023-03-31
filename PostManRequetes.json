@@ -1,0 +1,384 @@
+{
+	"info": {
+		"_postman_id": "8065eeea-8829-4e5d-86b4-c21337594485",
+		"name": "ProjetAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25747671"
+	},
+	"item": [
+		{
+			"name": "GET",
+			"item": [
+				{
+					"name": "getPublicationsAsNonAuthentified",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/ProjetAPI/server.php",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"ProjetAPI",
+								"server.php"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getSomeonesPublicationsAsNonAuthentified",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/ProjetAPI/server.php?login=",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"ProjetAPI",
+								"server.php"
+							],
+							"query": [
+								{
+									"key": "login",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getPublications",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lIiwiZXhwIjoxNjgwMjg5OTE1LCJyb2xlIjoiUHVibGlzaGVyIn0.IFDvXRd2PUyFDhu7wFW_O6ELxs3WEGXk_SpYIcDEb9A",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost/ProjetAPI/server.php",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"ProjetAPI",
+								"server.php"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getSomeonesPublications",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lIiwiZXhwIjoxNjgwMjg5OTE1LCJyb2xlIjoiUHVibGlzaGVyIn0.IFDvXRd2PUyFDhu7wFW_O6ELxs3WEGXk_SpYIcDEb9A",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost/ProjetAPI/server.php?login=AlexM",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"ProjetAPI",
+								"server.php"
+							],
+							"query": [
+								{
+									"key": "login",
+									"value": "AlexM"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getPublicationsLikes",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lIiwiZXhwIjoxNjgwMjg5OTE1LCJyb2xlIjoiUHVibGlzaGVyIn0.IFDvXRd2PUyFDhu7wFW_O6ELxs3WEGXk_SpYIcDEb9A",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost/ProjetAPI/server.php?id_article=11",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"ProjetAPI",
+								"server.php"
+							],
+							"query": [
+								{
+									"key": "id_article",
+									"value": "11"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "POST",
+			"item": [
+				{
+					"name": "createLogin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"username\",\r\n    \"password\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/ProjetAPI/creationCompte.php",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"ProjetAPI",
+								"creationCompte.php"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "authentification",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"username\",\r\n    \"password\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/ProjetAPI/authentification.php",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"ProjetAPI",
+								"authentification.php"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createPublication",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lIiwiZXhwIjoxNjgwMjg5OTE1LCJyb2xlIjoiUHVibGlzaGVyIn0.IFDvXRd2PUyFDhu7wFW_O6ELxs3WEGXk_SpYIcDEb9A",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"contenu\": \"contenu\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/ProjetAPI/server.php",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"ProjetAPI",
+								"server.php"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "DELETE",
+			"item": [
+				{
+					"name": "deletePublication",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lIiwiZXhwIjoxNjgwMjg5OTE1LCJyb2xlIjoiUHVibGlzaGVyIn0.IFDvXRd2PUyFDhu7wFW_O6ELxs3WEGXk_SpYIcDEb9A",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost/ProjetAPI/server.php?id_article=25",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"ProjetAPI",
+								"server.php"
+							],
+							"query": [
+								{
+									"key": "id_article",
+									"value": "25"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PUT",
+			"item": [
+				{
+					"name": "updatePublicationContenu",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lIiwiZXhwIjoxNjgwMjg5OTE1LCJyb2xlIjoiUHVibGlzaGVyIn0.IFDvXRd2PUyFDhu7wFW_O6ELxs3WEGXk_SpYIcDEb9A",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"contenu\": \"updated contenu\",\r\n    \"id_article\": 24\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/ProjetAPI/server.php",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"ProjetAPI",
+								"server.php"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "upVote",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lIiwiZXhwIjoxNjgwMjg5OTE1LCJyb2xlIjoiUHVibGlzaGVyIn0.IFDvXRd2PUyFDhu7wFW_O6ELxs3WEGXk_SpYIcDEb9A",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id_article\": 24,\r\n    \"vote\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/ProjetAPI/server.php",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"ProjetAPI",
+								"server.php"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "downVote",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lIiwiZXhwIjoxNjgwMjg5OTE1LCJyb2xlIjoiUHVibGlzaGVyIn0.IFDvXRd2PUyFDhu7wFW_O6ELxs3WEGXk_SpYIcDEb9A",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id_article\": 24,\r\n    \"vote\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/ProjetAPI/server.php",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"ProjetAPI",
+								"server.php"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

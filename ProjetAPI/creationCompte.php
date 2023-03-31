@@ -1,5 +1,5 @@
 <?php
-    include('./myAuthentificationFunctions.php');
+    include('myAuthentificationFunctions.php');
 
     header("Content-Type:application/json");
 
@@ -14,9 +14,9 @@
                 $username = $data['username'];
                 $password = $data['password'];
                 insert($username, $password);
-                deliver_response(200, "Authentification réussie ", null );
+                deliver_response(204, "Creation de compte reussie.", null );
             }  else {
-                deliver_response(405, "User " . $data['username'] ." already exists.", NULL);
+                deliver_response(403, "Utilisateur " . $data['username'] ." existe deja.", NULL);
             }
             break;
         default :

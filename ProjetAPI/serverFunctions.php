@@ -65,7 +65,6 @@
         return $res->fetchAll();
     }
 
-
     function getLikeById($id) {
         $linkpdo = connection();
             $query = 'SELECT COUNT(*) FROM consulte WHERE id_article = ' . $id . ' AND vote = 1 ';

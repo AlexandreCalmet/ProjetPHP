@@ -16,9 +16,10 @@
         $role = json_decode($payload, true)['role'];
     } else {
         $role = "non authentifie";
-        $exp = time() + 300;
+        $exp = time() + 3600;
         $login = "non authentifie";
     }
+    
     switch ($http_method){
         case "GET" :
             if(is_jwt_valid($jwt)) {
@@ -48,11 +49,15 @@
                 deliver_response(405, "L'article n'existe pas.", null);
             }
             $author = getAuthor($id);
-            if ( ($login === $author || $role == "Moderator") && is_jwt_valid($jwt) ) {
-                deleteId($id);
-                deliver_response(200, "L'article a bien ete supprime.", null);
+            if ( ($login === $author || $role == "Moderator") ) {
+                if (is_jwt_valid($jwt) ) {
+                    deleteId($id);
+                    deliver_response(200, "L'article a bien ete supprime.", null);
+                } else {
+                    deliver_response(498, "Le token est invalide.", null);
+                }
             } else {
-                deliver_response(498, "Le token est invalide.", null);
+                deliver_response(401, "Autorisation necessaire.", null);
             }
             break;
         case "POST" :
@@ -76,11 +81,15 @@
             if (isset($data['contenu'])) {
                 $contenu = $data['contenu'];
                 $author = getAuthor($id);
-                if ( ($login === $author ) && is_jwt_valid($jwt) ) {
-                    update($contenu, $id);                  
-                    deliver_response(204, "Requête update traitée avec succès mais pas d’information à renvoyer.", null);
+                if (($login === $author )) {
+                    if ( is_jwt_valid($jwt) ) {
+                        update($contenu, $id);                  
+                        deliver_response(204, "Requête update traitée avec succès mais pas d’information à renvoyer.", null);
+                    } else {
+                        deliver_response(498, "Jeton invalide.", null);
+                    }
                 } else {
-                    deliver_response(498, "Jeton invalide", null);
+                    deliver_response(401, "Autorisation necessaire.", null);
                 }
             }
             if (isset($data['vote'])) {
@@ -93,7 +102,6 @@
                     } else {
                         deliver_response(498, "Jeton invalide", null);
                     }
-                    echo("Existent");
                 } else {
                     if ( is_jwt_valid($jwt) ) {
                         insertNewVote($login, $id, $vote);                
@@ -101,7 +109,6 @@
                     } else {
                         deliver_response(498, "Jeton invalide", null);
                     }
-                    echo("Non existent");
                 }                
             }
             break;
