@@ -41,7 +41,7 @@ Codes : 201 si réussie, 404 si le login utilisateur n’existe pas, 405 si mét
 URL : http://localhost/ProjetAPI/authentification.php
 IMPORTANT : Pour obtenir le rôle “Moderator” : authentification(body={“username”:AlexM, “password:”6559})
 
-Token valide nécessaire :
+### Token valide nécessaire :
 createPublication(body={“contenu”:$contenu}): Créer une publication dont l’identifiant $id_article est un nombre auto-incrémenté, $publication est la date/heure au moment de sa publication, $contenu est celui enregistré par l’utilisateur, $login est l’auteur de cette nouvelle publication.
 Codes : 201 si réussie, 405 si méthode non reconnue, 498 si le jeton est invalide.
 URL : http://localhost/ProjetAPI/server.php
