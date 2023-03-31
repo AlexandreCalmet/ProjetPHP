@@ -14,30 +14,9 @@
             return $linkpdo;
     }
 
-    function getByName($x=null) {
+    function getNameByName($username) {
         $linkpdo = connection();
-        if (isset($x)) {
-            $query = 'SELECT * FROM utilisateur WHERE login = \'' . $x . '\'';
-            $res = $linkpdo->prepare($query); 
-            if(!$res){
-                die('Erreur Préparation Requête : ' . $e->getMessage());
-            }
-            $res->execute();
-            return $res->fetchAll();
-        } else {
-            $query = 'SELECT * FROM utilisateur';
-            $res = $linkpdo->prepare($query); 
-            if(!$res){
-                die('Erreur Préparation Requête : ' . $e->getMessage());
-            }
-            $res->execute();
-            return $res->fetchAll();
-        }
-    }
-
-    function getNameByName($x) {
-        $linkpdo = connection();
-            $query = 'SELECT login FROM utilisateur WHERE login = \'' . $x . '\'';
+            $query = 'SELECT login FROM utilisateur WHERE login = \'' . $username . '\'';
             $res = $linkpdo->prepare($query); 
             if(!$res){
                 die('Erreur Préparation Requête : ' . $e->getMessage());
@@ -46,9 +25,9 @@
             return $res->fetchAll();
     }
 
-    function getPasswordByName($x) {
+    function getPasswordByName($username) {
         $linkpdo = connection();
-            $query = 'SELECT password FROM utilisateur WHERE login = \'' . $x . '\'';
+            $query = 'SELECT password FROM utilisateur WHERE login = \'' . $username . '\'';
             $res = $linkpdo->prepare($query); 
             if(!$res){
                 die('Erreur Préparation Requête : ' . $e->getMessage());
@@ -58,11 +37,20 @@
             return $result;
 
     }
+        #Vérifie dans la BDD si l'utilisateur existe et si le mot de passe correspond à celui de l'utilisateur dans la BDD
+        function isValidUser($username, $password) {
+            $dbPassword =  getPasswordByName($username)[0];
+            if (($username==getNameByName($username)) && ($password == $dbPassword)) {
+                return true;
+            } else {
+                return false;
+            }        
+        }
     
         #Récupére le rôle en fonction du login entré
-        function setRole($username) {
+        function getRole($utilisateur) {
             $linkpdo = connection();
-            $query = 'SELECT role FROM utilisateur WHERE login = \'' . $username . '\'' ;
+            $query = 'SELECT role FROM utilisateur WHERE login = \'' . $utilisateur . '\'' ;
             $res = $linkpdo->prepare($query); 
             if(!$res){
                 die('Erreur Préparation Requête : ' . $e->getMessage());
@@ -71,19 +59,6 @@
             $result = $res->fetchAll();
             return $result[0];
         }    
-
-        #Récupérer le login d'un nom d'utilisateur en entrée
-        function doesntExist($username) {
-            $linkpdo = connection();
-            $query = 'SELECT login FROM utilisateur WHERE login = \'' . $username . '\'' ;
-            $res = $linkpdo->prepare($query); 
-            if(!$res){
-                die('Erreur Préparation Requête : ' . $e->getMessage());
-            }
-            $res->execute();
-            $result = $res->fetchAll();
-            return $result;
-        }
 
         function insert($username, $password) {
             $linkpdo = connection();

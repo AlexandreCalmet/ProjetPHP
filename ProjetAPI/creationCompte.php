@@ -10,7 +10,7 @@
         case "POST":
             $data = (array) json_decode(file_get_contents('php://input'), TRUE);  
                      
-            if ( doesntExist($data['username']) == null ) {
+            if ( getNameByName($data['username']) == null ) {
                 $username = $data['username'];
                 $password = $data['password'];
                 insert($username, $password);

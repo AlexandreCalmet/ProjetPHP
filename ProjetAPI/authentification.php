@@ -41,14 +41,6 @@
         echo $json_response;
     }
 
-    #Vérifie dans la BDD si l'utilisateur existe et si le mot de passe correspond à celui de l'utilisateur dans la BDD
-    function isValidUser($username, $password) {
-        $dbPassword =  getPasswordByName($username)[0];
-        if ($username!=null && $password == $dbPassword) {
-            return true;
-        } else {
-            return false;
-        }        
-    }
+
 
 ?>

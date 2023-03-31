@@ -65,9 +65,9 @@
         return $res->fetchAll();
     }
 
-    function getLikeById($id) {
+    function getLikeById($id_article) {
         $linkpdo = connection();
-            $query = 'SELECT COUNT(*) FROM consulte WHERE id_article = ' . $id . ' AND vote = 1 ';
+            $query = 'SELECT COUNT(*) FROM consulte WHERE id_article = ' . $id_article . ' AND vote = 1 ';
             $res = $linkpdo->prepare($query); 
             if(!$res){
                 die('Erreur Préparation Requête : ' . $e->getMessage());
@@ -78,9 +78,9 @@
             }
     }
 
-    function getDislikeById($id) {
+    function getDislikeById($id_article) {
         $linkpdo = connection();
-            $query = 'SELECT COUNT(*) FROM consulte WHERE id_article = ' . $id . ' AND vote = 0 ';
+            $query = 'SELECT COUNT(*) FROM consulte WHERE id_article = ' . $id_article . ' AND vote = 0 ';
             $res = $linkpdo->prepare($query); 
             if(!$res){
                 die('Erreur Préparation Requête : ' . $e->getMessage());
@@ -91,14 +91,14 @@
             }
     }
 
-    function insert($contenu, $login) {
+    function insert($contenu, $utilisateur) {
         $linkpdo = connection();     
         $query = 'INSERT INTO article (contenu, login) VALUES (:contenu, :login)';
         $res = $linkpdo->prepare($query);
         if(!$res) {
             die('Erreur Préparation Requête : ' . $e->getMessage());
         }
-        $resExec=$res->execute(array("contenu" => $contenu, "login" => $login ));
+        $resExec=$res->execute(array("contenu" => $contenu, "utilisateur" => $utilisateur ));
         if(!$resExec)
             die('Erreur Exécution Requête : ' . $e->getMessage());
         return $res;
@@ -115,9 +115,9 @@
         return $res->fetchAll();
     }
 
-    function getAuthor($id) {
+    function getAuthor($id_article) {
             $linkpdo = connection();
-            $query = 'SELECT login FROM article WHERE id_article =' .  $id  ;
+            $query = 'SELECT login FROM article WHERE id_article =' .  $id_article  ;
             $res = $linkpdo->prepare($query); 
             if(!$res){
                 die('Erreur Préparation Requête : ' . $e->getMessage());
@@ -129,35 +129,35 @@
             }            
     }
 
-    function update($contenu, $id) {
+    function update($contenu, $id_article) {
         $linkpdo = connection();     
         $query = 'UPDATE article SET contenu = :contenu WHERE id_article = :id' ;
         $res = $linkpdo->prepare($query);
         if(!$res) {
             die('Erreur Préparation Requête : ' . $e->getMessage());
         }
-        $resExec=$res->execute(array("contenu" => $contenu, "id" => $id ));
+        $resExec=$res->execute(array("contenu" => $contenu, "id_article" => $id_article ));
         if(!$resExec)
             die('Erreur Exécution Requête : ' . $e->getMessage());
         return $res;
     }
 
-    function vote($login, $id_article, $vote) {
+    function vote($utilisateur, $id_article, $vote) {
         $linkpdo = connection();     
-        $query = 'UPDATE consulte SET vote = :vote WHERE id_article = :id_article AND login= :login';
+        $query = 'UPDATE consulte SET vote = :vote WHERE id_article = :id_article AND login= :utilisateur';
         $res = $linkpdo->prepare($query);
         if(!$res) {
             die('Erreur Préparation Requête : ' . $e->getMessage());
         }
-        $resExec=$res->execute(array( "login" => $login, "id_article" => $id_article, "vote" => $vote ));
+        $resExec=$res->execute(array( "utilisateur" => $utilisateur, "id_article" => $id_article, "vote" => $vote ));
         if(!$resExec)
             die('Erreur Exécution Requête : ' . $e->getMessage());
         return $res;
     }
 
-    function isNewVote($login, $id_article) {
+    function isNewVote($utilisateur, $id_article) {
         $linkpdo = connection();  
-        $query = 'SELECT vote FROM consulte WHERE id_article = ' . $id_article . ' AND login = \'' .  $login . '\'';
+        $query = 'SELECT vote FROM consulte WHERE id_article = ' . $id_article . ' AND login = \'' .  $utilisateur . '\'';
         $res = $linkpdo->prepare($query);
         if(!$res) {
             die('Erreur Préparation Requête : ' . $e->getMessage());
